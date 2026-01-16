@@ -1,0 +1,17 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+
+           
+  - name: install apache2 package
+    ansible.builtin.dnf:
+      name: httpd >= 2.4
+      state: absent
+
+  - name: add php for apache
+    ansible.builtin.package:
+      name: php-cli
+      state: absent
+      
