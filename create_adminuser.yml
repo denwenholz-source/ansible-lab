@@ -1,0 +1,14 @@
+---
+- name: Create admin user
+  hosts: all
+  become: true
+
+  tasks:
+
+    - name: Create sysadmin user
+      ansible.builtin.user:
+        name: sysadmin
+        groups: wheel
+        append: true
+        shell: /bin/bash
+        create_home: true
