@@ -2,7 +2,7 @@
 - name: Install system utilities
   hosts: all
   become: true
-  gather facts: false
+  gather_facts: false
 
   tasks:
 
