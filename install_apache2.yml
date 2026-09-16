@@ -1,0 +1,47 @@
+---
+- name: Install and configure Apache on Oracle Linux
+  hosts: all
+  become: true
+
+  tasks:
+
+    - name: Install Apache HTTP Server
+      ansible.builtin.dnf:
+        name: httpd
+        state: present
+
+    - name: Start and enable Apache
+      ansible.builtin.systemd:
+        name: httpd
+        state: started
+        enabled: true
+
+    - name: Create Apache index page
+      ansible.builtin.copy:
+        dest: /var/www/html/index.html
+        owner: apache
+        group: apache
+        mode: '0644'
+        content: |
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <title>Oracle Linux Apache Server</title>
+          </head>
+          <body>
+            <h1>Apache is running!</h1>
+            <p>Managed by Ansible.</p>
+          </body>
+          </html>
+
+    - name: Allow HTTP through firewalld
+      ansible.posix.firewalld:
+        service: http
+        permanent: true
+        state: enabled
+        immediate: true
+
+    - name: Verify Apache is running
+      ansible.builtin.systemd:
+        name: httpd
+        state: started
