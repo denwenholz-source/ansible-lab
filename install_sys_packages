@@ -1,0 +1,18 @@
+---
+- name: Install system utilities
+  hosts: all
+  become: true
+  gather facts: false
+
+  tasks:
+
+    - name: Install packages
+      ansible.builtin.dnf:
+        name:
+          - vim
+          - wget
+          - curl
+          - net-tools
+          - tcpdump
+          - bind-utils
+        state: present
